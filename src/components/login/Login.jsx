@@ -8,7 +8,24 @@ export default function Login() {
 
     const emailRef = useRef();
     const passwordRef = useRef();
+    const btnRef = useRef();
     const navigate = useNavigate();
+
+    const waitFor = ms => new Promise(
+        resolve => setTimeout(resolve, ms)
+    )
+    
+    const disableButton = btn => {
+        btn.current.textContent = "verificando...";
+        btn.current.style.opacity = .6;
+        btn.current.disabled = true;
+    }
+
+    const enableButton = btn => {
+        btn.current.textContent = "Enviar";
+        btn.current.style.opacity = 1;
+        btn.current.disabled = false;
+    }
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -19,8 +36,11 @@ export default function Login() {
             swal('¡Cuidado!', 'No dejes campos en blanco', 'warning');
             return;
         }
-
+        disableButton(btnRef);
+        await waitFor(3000) // espera 3 segundos
+        
         const { token } = await getToken(email, password);
+        enableButton(btnRef);
         if (token !== undefined) {
             localStorage.setItem("recetas-token", token);
             navigate('/');
@@ -45,7 +65,7 @@ export default function Login() {
                             <Form.Control ref={passwordRef} type="password" placeholder="Introduce tu contraseña" />
                         </Form.Group>
 
-                        <Button type="submit" variant="success">Enviar</Button>
+                        <Button ref={btnRef} type="submit" variant="success">Enviar</Button>
                     </Form>
                 </Col>
             </Row>
