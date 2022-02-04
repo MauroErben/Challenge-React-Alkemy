@@ -38,14 +38,12 @@ export default function Login() {
         }
         disableButton(btnRef);
         await waitFor(3000) // espera 3 segundos
-        
+
         const { token } = await getToken(email, password);
         enableButton(btnRef);
         if (token !== undefined) {
             localStorage.setItem("recetas-token", token);
             navigate('/');
-            emailRef.current.value = null;
-            passwordRef.current.value = null;
         }
     }
 
@@ -62,7 +60,7 @@ export default function Login() {
 
                         <Form.Group className="mb-3">
                             <Form.Label>Contraseña</Form.Label>
-                            <Form.Control ref={passwordRef} type="password" placeholder="Introduce tu contraseña" />
+                            <Form.Control ref={passwordRef} type="password" placeholder="Introduce tu contraseña" autoComplete="on"/>
                         </Form.Group>
 
                         <Button ref={btnRef} type="submit" variant="success">Enviar</Button>
