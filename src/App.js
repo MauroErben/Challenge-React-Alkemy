@@ -6,11 +6,14 @@ import NavBar from "./components/navbar/NavBar";
 import SearchList from "./components/search/search";
 import MenuList from "./components/menu/menu";
 import { Container } from "react-bootstrap";
+import viewDetails from "./components/details/details";
+import usePromedio from "./components/customHooks/promedio";
 
 function App() {
 
   const [searchList, setSearchList] = useState([]);
   const [menu, setMenu] = useState([]);
+  const promedio = usePromedio(menu);
 
   const searchRef = useRef();
   const navigate = useNavigate();
@@ -19,6 +22,10 @@ function App() {
     const tokenSaved = localStorage.getItem('recetas-token');
     !tokenSaved && navigate("/login");
   }, []);
+
+  useEffect(() => {
+    promedio.crearPromedio();
+  }, [menu])
 
   //function para buscar platos
   const handleSearch = async (e) => {
@@ -54,7 +61,18 @@ function App() {
       swal('¡Cuidado!', 'Debes agregar 2 platos comunes y 2 veganos', 'warning');
       return;
     }
-    !menuExist(plato.id) && setMenu([...menu, plato])
+    !menuExist(plato.id) ? setMenu([...menu, plato]) : swal('¡Upps!', 'Este plato ya esta en tu menu.', 'warning');
+  }
+
+  //funcion para ver los detalles del plato seleccionado
+  const handleDetails = (id) => {
+    viewDetails(id, menu)
+  }
+
+  //funcion para borrar platos del menu
+  const handleDelete = (id) => {
+    const elements = menu.filter(plato => plato.id !== id);
+    setMenu(elements);
   }
 
   return (
@@ -63,9 +81,9 @@ function App() {
         searchReference={searchRef}
         handleSearch={handleSearch}
       />
-      
+
       <Container className="mt-3">
-        Se han encontrado: {searchList.filter(platos => platos).length} resultados
+        Se han encontrado: <b>{searchList.length} resultados.</b>
       </Container>
 
       <SearchList
@@ -75,9 +93,11 @@ function App() {
       <hr />
       <MenuList
         menuList={menu}
+        handleDetails={handleDetails}
+        handleDelete={handleDelete}
+        promedio={promedio.promedio}
       />
     </>
   );
 }
-
 export default App;

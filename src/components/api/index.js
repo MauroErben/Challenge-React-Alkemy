@@ -10,18 +10,17 @@ export const getToken = (email, password) => {
     }
 
     return axios.post('http://challenge-react.alkemy.org/', data)
-    .then(result => {
-        const { token } = result.data;
-        return { token };
-    }).catch(error => swal('Ha ocurrido un error :(', error.message, 'error'));
+        .then(result => {
+            const { token } = result.data;
+            return { token };
+        }).catch(error => swal('Ha ocurrido un error :(', error.message, 'error'));
 }
 
 export const searchComidas = (keyword) => {
     const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&query=${keyword}&number=6&addRecipeInformation=true`;
     return axios.get(url)
-    .then(res => {
-        console.log(res);
-         const { results } = res.data;
-         return results;
-    });
+        .then(res => {
+            const { results } = res.data;
+            return results;
+        });
 }

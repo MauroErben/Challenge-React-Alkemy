@@ -1,11 +1,19 @@
 import React from "react";
 import { Button, Col } from "react-bootstrap";
 
-export default function PlatosItem({ plato, isMenu, handleAdd }) {
-    const {id, image, title, vegan } = plato;
+export default function PlatosItem({ plato, isMenu, handleAdd, handleDetails, handleDelete }) {
+    const { id, image, title, vegan} = plato;
 
     const addPlato = () => {
         handleAdd(id);
+    }
+
+    const viewDetails = () => {
+        handleDetails(id);
+    }
+
+    const deletePlato = () => {
+        handleDelete(id);
     }
 
     return (
@@ -15,21 +23,20 @@ export default function PlatosItem({ plato, isMenu, handleAdd }) {
                 <div className="card-body">
                     {/* TITLE */}
                     <h5 className="card-title">{title}</h5>
-                    
-                    {/* TAGS */}
-                    {vegan ? <span className="badge bg-success">Vegano</span>
-                    : <span className="badge bg-primary">Común</span>}
 
-                    {/* DESCRIPTION */}
-                    <p className="card-text">...</p>
+                    {/* TAGS */}
+                    <p className="card-text">
+                        {vegan ? <span className="badge bg-success">Vegano</span>
+                        : <span className="badge bg-primary">Común</span>}
+                    </p>
 
                     {/* BUTTONS */}
                     {isMenu ?
                         <>
-                            <Button variant='danger'>Eliminar</Button>
-                            <Button className="ms-2" variant='warning'>Detalles</Button>
+                            <Button onClick={deletePlato} variant='danger'>Eliminar</Button>
+                            <Button onClick={viewDetails} className="ms-2" variant='warning'>Detalles</Button>
                         </>
-                    : <Button onClick={addPlato} variant="success">Agregar</Button>}
+                        : <Button onClick={addPlato} variant="success">Agregar</Button>}
                 </div>
             </div>
         </Col>
