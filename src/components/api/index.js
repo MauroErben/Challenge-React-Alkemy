@@ -22,5 +22,5 @@ export const searchComidas = (keyword) => {
         .then(res => {
             const { results } = res.data;
             return results;
-        });
+        }).catch(error => swal('Ha ocurrido un error :(', error.message, 'error'));
 }

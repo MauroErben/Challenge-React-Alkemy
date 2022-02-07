@@ -34,6 +34,8 @@ function App() {
     if (keywords.length > 2) {
       const lista = await searchComidas(keywords);
       setSearchList(lista);
+      // limpiamos la caja de texto
+      searchRef.current.value = null;
     } else {
       swal('¡Cuidado!', 'Debes ingresar mas de 2 caracteres de busqueda.', 'warning')
     }

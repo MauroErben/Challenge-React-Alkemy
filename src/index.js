@@ -9,6 +9,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Routes>
+        <Route path="*" element={<App/>} />
         <Route path="/" element={<App/>}/>
         <Route path="/login" element={<LoginPage/>}/>
       </Routes>
