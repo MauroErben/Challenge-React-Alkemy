@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import swal from "sweetalert";
-import getToken from "../api";
+import {getToken} from "../api";
 
 export default function Login() {
 

@@ -1,14 +1,27 @@
 import axios from 'axios';
 import swal from 'sweetalert';
 
-export default function getToken(email, password) {
+const APIKEY = process.env.REACT_APP_APIKEY;
+
+export const getToken = (email, password) => {
     const data = {
         email,
         password
     }
+
     return axios.post('http://challenge-react.alkemy.org/', data)
     .then(result => {
-        const {token} = result.data;
-        return {token};
+        const { token } = result.data;
+        return { token };
     }).catch(error => swal('Ha ocurrido un error :(', error.message, 'error'));
+}
+
+export const searchComidas = (keyword) => {
+    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&query=${keyword}&number=6&addRecipeInformation=true`;
+    return axios.get(url)
+    .then(res => {
+        console.log(res);
+         const { results } = res.data;
+         return results;
+    });
 }
